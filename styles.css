@@ -1,0 +1,564 @@
+/* ========================================
+   道德經 · Dao De Jing Practice App
+   Stylesheet
+   ======================================== */
+
+/* Reset & Base */
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f3ef 0%, #ebe7df 100%);
+  font-family: "Source Sans 3", "Noto Sans SC", -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* App Container */
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  padding-top: max(20px, env(safe-area-inset-top));
+  padding-bottom: calc(max(20px, env(safe-area-inset-bottom)) + 20px);
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.title {
+  font-family: "Noto Serif SC", serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d2d2d;
+  margin: 0;
+  letter-spacing: 8px;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 4px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+/* Chapter Navigation */
+.chapter-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.chapter-btn {
+  padding: 10px 18px;
+  border: 2px solid #d4cfc4;
+  background: white;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  font-family: "Noto Serif SC", serif;
+}
+
+.chapter-btn:hover,
+.chapter-btn:active {
+  border-color: #8b7355;
+  background: #fdfcfa;
+}
+
+.chapter-btn.active {
+  background: #2d2d2d;
+  color: white;
+  border-color: #2d2d2d;
+}
+
+/* View Toggle */
+.view-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 24px;
+}
+
+.view-btn {
+  padding: 12px 28px;
+  border: 2px solid #2d2d2d;
+  background: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-family: inherit;
+}
+
+.view-btn:first-child {
+  border-radius: 30px 0 0 30px;
+}
+
+.view-btn:last-child {
+  border-radius: 0 30px 30px 0;
+  border-left: none;
+}
+
+.view-btn.active {
+  background: #2d2d2d;
+  color: white;
+}
+
+/* Content Card */
+.content-card {
+  background: white;
+  border-radius: 20px;
+  padding: 32px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 20px;
+}
+
+/* Line Display */
+.line-display {
+  text-align: center;
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid #ebe7df;
+  position: relative;
+}
+
+.classical-text {
+  font-family: "Noto Serif SC", serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: 10px;
+  margin-bottom: 8px;
+}
+
+.pinyin-text {
+  font-size: 1.1rem;
+  color: #8b7355;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.modern-text {
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 8px;
+}
+
+.english-text {
+  font-size: 1rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Audio Button */
+.audio-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 44px;
+  height: 44px;
+  border: 2px solid #d4cfc4;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b7355;
+  transition: all 0.2s;
+}
+
+.audio-btn:hover,
+.audio-btn:active {
+  border-color: #8b7355;
+  background: #faf8f5;
+}
+
+.audio-btn.playing {
+  border-color: #8b7355;
+  background: #8b7355;
+  color: white;
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.audio-btn-small {
+  width: 36px;
+  height: 36px;
+  border: 2px solid #d4cfc4;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #8b7355;
+  transition: all 0.2s;
+  margin: 12px auto;
+}
+
+.audio-btn-small:hover {
+  border-color: #8b7355;
+  background: #faf8f5;
+}
+
+/* View Content */
+.view-content {
+  min-height: 300px;
+}
+
+.view-content.hidden {
+  display: none;
+}
+
+/* Characters Grid */
+.characters-grid {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.char-card {
+  width: 72px;
+  padding: 14px 10px;
+  background: #faf8f5;
+  border-radius: 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 2px solid transparent;
+}
+
+.char-card:hover {
+  background: #f0ebe3;
+}
+
+.char-card.active {
+  border-color: #8b7355;
+  background: white;
+}
+
+.char-card .char {
+  font-family: "Noto Serif SC", serif;
+  font-size: 1.8rem;
+  color: #1a1a1a;
+}
+
+.char-card .char-pinyin {
+  font-size: 0.7rem;
+  color: #8b7355;
+  margin-top: 4px;
+}
+
+/* Character Detail */
+.char-detail {
+  text-align: center;
+}
+
+.stroke-demo {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 16px;
+  background: #faf8f5;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.char-info {
+  margin-bottom: 16px;
+}
+
+.char-info .pinyin {
+  font-size: 1.4rem;
+  color: #8b7355;
+  margin-bottom: 6px;
+}
+
+.char-info .meaning {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Stroke Controls */
+.stroke-controls {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.stroke-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #2d2d2d;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.stroke-btn:hover {
+  background: #444;
+}
+
+.stroke-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Practice Section */
+.practice-section {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.practice-char-detail {
+  flex: 1;
+  min-width: 200px;
+  text-align: center;
+}
+
+.big-char {
+  font-family: "Noto Serif SC", serif;
+  font-size: 7rem;
+  color: #1a1a1a;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+/* Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.nav-btn {
+  padding: 12px 28px;
+  background: #2d2d2d;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: inherit;
+}
+
+.nav-btn:hover {
+  background: #444;
+}
+
+.nav-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Canvas Container */
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+#writingCanvas {
+  border-radius: 16px;
+  border: 2px solid #d4cfc4;
+  touch-action: none;
+  cursor: crosshair;
+  background: #faf8f5;
+}
+
+.clear-btn {
+  padding: 10px 24px;
+  background: transparent;
+  border: 2px solid #d4cfc4;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: #666;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: inherit;
+}
+
+.clear-btn:hover {
+  border-color: #8b7355;
+  color: #8b7355;
+}
+
+/* Line Navigation */
+.line-nav {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.line-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #d4cfc4;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  padding: 0;
+}
+
+.line-dot:hover {
+  background: #8b7355;
+}
+
+.line-dot.active {
+  background: #2d2d2d;
+  transform: scale(1.3);
+}
+
+/* Instructions */
+.instructions {
+  text-align: center;
+  color: #999;
+  font-size: 0.85rem;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.7);
+  border-radius: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .title {
+    font-size: 2rem;
+    letter-spacing: 6px;
+  }
+  
+  .subtitle {
+    font-size: 0.75rem;
+  }
+  
+  .classical-text {
+    font-size: 2rem;
+    letter-spacing: 6px;
+  }
+  
+  .content-card {
+    padding: 20px;
+  }
+  
+  .big-char {
+    font-size: 5rem;
+  }
+  
+  .chapter-btn {
+    padding: 8px 14px;
+    font-size: 0.8rem;
+  }
+  
+  .practice-section {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #writingCanvas {
+    width: 260px;
+    height: 260px;
+  }
+}
+
+/* iPad Specific */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .app-container {
+    padding: 40px;
+  }
+  
+  .content-card {
+    padding: 40px;
+  }
+  
+  #writingCanvas {
+    width: 320px;
+    height: 320px;
+  }
+  
+  .stroke-demo {
+    width: 240px;
+    height: 240px;
+  }
+}
+
+/* Standalone Mode (PWA) */
+@media (display-mode: standalone) {
+  body {
+    padding-top: env(safe-area-inset-top);
+  }
+}
+
+/* Animation for loading */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.content-card {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Quiz Mode Styles */
+.quiz-active .stroke-demo {
+  border: 3px dashed #8b7355;
+}
+
+.quiz-result {
+  margin-top: 12px;
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.quiz-result.success {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.quiz-result.error {
+  background: #ffebee;
+  color: #c62828;
+}

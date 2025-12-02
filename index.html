@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="道德經">
+  <meta name="theme-color" content="#2d2d2d">
+  <title>道德經 · Dao De Jing Practice</title>
+  
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Source+Sans+3:wght@300;400;600&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  
+  <style>
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { height: -webkit-fill-available; }
+    body {
+      margin: 0; padding: 0;
+      min-height: 100vh; min-height: -webkit-fill-available;
+      background: linear-gradient(135deg, #f5f3ef 0%, #ebe7df 100%);
+      font-family: "Source Sans 3", "Noto Sans SC", -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    .app-container {
+      max-width: 900px; margin: 0 auto; padding: 20px;
+      padding-top: max(20px, env(safe-area-inset-top));
+      padding-bottom: max(20px, env(safe-area-inset-bottom));
+    }
+    .header { text-align: center; margin-bottom: 24px; }
+    .title {
+      font-family: "Noto Serif SC", serif;
+      font-size: 2.5rem; font-weight: 700; color: #2d2d2d;
+      margin: 0; letter-spacing: 8px;
+    }
+    .subtitle {
+      font-size: 0.85rem; color: #888; margin-top: 4px;
+      letter-spacing: 3px; text-transform: uppercase;
+    }
+    .chapter-nav {
+      display: flex; justify-content: center; gap: 10px;
+      margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .chapter-btn {
+      padding: 10px 16px; border: 2px solid #d4cfc4; background: white;
+      border-radius: 30px; cursor: pointer; font-size: 0.82rem;
+      transition: all 0.2s; font-family: "Noto Serif SC", serif;
+    }
+    .chapter-btn.active { background: #2d2d2d; color: white; border-color: #2d2d2d; }
+    .view-toggle { display: flex; justify-content: center; margin-bottom: 24px; }
+    .view-btn {
+      padding: 12px 28px; border: 2px solid #2d2d2d; background: white;
+      cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
+      text-transform: uppercase; letter-spacing: 2px;
+    }
+    .view-btn:first-child { border-radius: 30px 0 0 30px; }
+    .view-btn:last-child { border-radius: 0 30px 30px 0; border-left: none; }
+    .view-btn.active { background: #2d2d2d; color: white; }
+    .content-card {
+      background: white; border-radius: 20px; padding: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06); margin-bottom: 20px;
+    }
+    .line-display {
+      text-align: center; margin-bottom: 24px;
+      padding-bottom: 24px; border-bottom: 1px solid #ebe7df;
+    }
+    .classical-text {
+      font-family: "Noto Serif SC", serif;
+      font-size: 2.4rem; font-weight: 600; color: #1a1a1a;
+      letter-spacing: 10px; margin-bottom: 8px;
+    }
+    .pinyin-text { font-size: 1rem; color: #8b7355; letter-spacing: 2px; margin-bottom: 14px; }
+    .modern-label, .english-label {
+      font-size: 0.7rem; color: #aaa; text-transform: uppercase;
+      letter-spacing: 1px; margin-bottom: 4px;
+    }
+    .modern-text {
+      font-family: "Noto Serif SC", serif;
+      font-size: 1.15rem; color: #555; margin-bottom: 12px;
+    }
+    .english-text { font-size: 1rem; color: #666; font-style: italic; }
+    .audio-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; background: #f5f3ef; border: none;
+      border-radius: 20px; cursor: pointer; font-size: 0.8rem;
+      color: #666; margin-top: 12px; transition: all 0.2s;
+    }
+    .audio-btn:hover { background: #ebe7df; color: #2d2d2d; }
+    .audio-btn.playing { background: #2d2d2d; color: white; }
+    .audio-btn svg { width: 16px; height: 16px; }
+    .characters-grid {
+      display: flex; justify-content: center; gap: 10px;
+      flex-wrap: wrap; margin-bottom: 20px;
+    }
+    .char-card {
+      width: 72px; padding: 14px 10px; background: #faf8f5;
+      border-radius: 12px; text-align: center; cursor: pointer;
+      transition: all 0.2s; border: 2px solid transparent;
+    }
+    .char-card.active { border-color: #8b7355; background: white; }
+    .char-card .char { font-family: "Noto Serif SC", serif; font-size: 1.8rem; color: #1a1a1a; }
+    .char-card .char-pinyin { font-size: 0.7rem; color: #8b7355; margin-top: 4px; }
+    .practice-section {
+      display: flex; gap: 24px; align-items: flex-start;
+      flex-wrap: wrap; justify-content: center;
+    }
+    .char-detail { flex: 1; min-width: 220px; text-align: center; }
+    .big-char {
+      font-family: "Noto Serif SC", serif;
+      font-size: 6rem; color: #1a1a1a; line-height: 1; margin-bottom: 8px;
+    }
+    .char-info { margin-bottom: 16px; }
+    .char-info .pinyin { font-size: 1.4rem; color: #8b7355; margin-bottom: 6px; }
+    .char-info .meaning { font-size: 0.95rem; color: #666; }
+    .char-audio-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 10px 20px; background: #8b7355; border: none;
+      border-radius: 25px; cursor: pointer; font-size: 0.85rem;
+      color: white; margin-bottom: 16px; transition: all 0.2s;
+    }
+    .char-audio-btn:hover { background: #6d5a43; }
+    .char-audio-btn svg { width: 18px; height: 18px; }
+    .nav-buttons { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+    .nav-btn {
+      padding: 12px 24px; background: #2d2d2d; color: white; border: none;
+      border-radius: 30px; cursor: pointer; font-size: 0.82rem;
+      transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .nav-btn:disabled { background: #ccc; cursor: not-allowed; }
+    .stroke-section { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+    #stroke-target { background: #faf8f5; border-radius: 16px; border: 2px solid #e0dcd4; }
+    .stroke-controls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+    .stroke-btn {
+      padding: 10px 18px; background: white; border: 2px solid #d4cfc4;
+      border-radius: 20px; cursor: pointer; font-size: 0.75rem;
+      color: #666; transition: all 0.2s; text-transform: uppercase; letter-spacing: 1px;
+    }
+    .stroke-btn:hover { border-color: #8b7355; color: #8b7355; }
+    .stroke-btn.primary { background: #8b7355; border-color: #8b7355; color: white; }
+    .stroke-btn.primary:hover { background: #6d5a43; border-color: #6d5a43; }
+    #writing-canvas {
+      border-radius: 16px; border: 2px solid #d4cfc4;
+      touch-action: none; cursor: crosshair; background: #faf8f5;
+    }
+    .line-nav { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+    .line-dot {
+      width: 10px; height: 10px; border-radius: 50%; background: #d4cfc4;
+      cursor: pointer; transition: all 0.2s; border: none;
+    }
+    .line-dot.active { background: #2d2d2d; transform: scale(1.3); }
+    .instructions {
+      text-align: center; color: #999; font-size: 0.82rem;
+      margin-top: 20px; padding: 14px; background: #faf8f5;
+      border-radius: 12px; line-height: 1.5;
+    }
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .practice-tabs { display: flex; justify-content: center; margin-bottom: 20px; }
+    .practice-tab {
+      padding: 10px 20px; background: #f5f3ef; border: none; cursor: pointer;
+      font-size: 0.8rem; color: #666; transition: all 0.2s;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .practice-tab:first-child { border-radius: 20px 0 0 20px; }
+    .practice-tab:last-child { border-radius: 0 20px 20px 0; }
+    .practice-tab.active { background: #8b7355; color: white; }
+    @media (max-width: 600px) {
+      .title { font-size: 2rem; letter-spacing: 6px; }
+      .classical-text { font-size: 1.8rem; letter-spacing: 6px; }
+      .big-char { font-size: 5rem; }
+      .practice-section { flex-direction: column; align-items: center; }
+      .char-detail { min-width: auto; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <header class="header">
+      <h1 class="title">道德經</h1>
+      <p class="subtitle">Writing Practice</p>
+    </header>
+    <nav class="chapter-nav" id="chapter-nav"></nav>
+    <div class="view-toggle">
+      <button class="view-btn active" data-view="study">Study</button>
+      <button class="view-btn" data-view="practice">Practice</button>
+    </div>
+    <div class="content-card">
+      <div class="line-display">
+        <div class="classical-text" id="classical-text"></div>
+        <div class="pinyin-text" id="pinyin-text"></div>
+        <button class="audio-btn" id="line-audio-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+          </svg>
+          Listen
+        </button>
+        <div style="margin-top: 16px;">
+          <div class="modern-label">Modern Chinese</div>
+          <div class="modern-text" id="modern-text"></div>
+        </div>
+        <div>
+          <div class="english-label">English</div>
+          <div class="english-text" id="english-text"></div>
+        </div>
+      </div>
+      <div class="tab-content active" id="study-view">
+        <div class="characters-grid" id="characters-grid"></div>
+        <div class="char-detail">
+          <div class="char-info">
+            <div class="pinyin" id="study-pinyin"></div>
+            <div class="meaning" id="study-meaning"></div>
+          </div>
+        </div>
+      </div>
+      <div class="tab-content" id="practice-view">
+        <div class="practice-tabs">
+          <button class="practice-tab active" data-tab="stroke">Stroke Order</button>
+          <button class="practice-tab" data-tab="write">Free Write</button>
+        </div>
+        <div class="practice-section">
+          <div class="char-detail">
+            <div class="big-char" id="big-char"></div>
+            <div class="char-info">
+              <div class="pinyin" id="practice-pinyin"></div>
+              <div class="meaning" id="practice-meaning"></div>
+            </div>
+            <button class="char-audio-btn" id="char-audio-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+              Play Sound
+            </button>
+            <div class="nav-buttons">
+              <button class="nav-btn" id="prev-btn">← Prev</button>
+              <button class="nav-btn" id="next-btn">Next →</button>
+            </div>
+          </div>
+          <div class="stroke-section" id="stroke-section">
+            <div id="stroke-target"></div>
+            <div class="stroke-controls">
+              <button class="stroke-btn primary" id="animate-btn">▶ Animate</button>
+              <button class="stroke-btn" id="quiz-btn">Quiz Me</button>
+            </div>
+          </div>
+          <div class="stroke-section" id="write-section" style="display: none;">
+            <div class="canvas-wrapper">
+              <canvas id="writing-canvas" width="260" height="260"></canvas>
+            </div>
+            <div class="stroke-controls">
+              <button class="stroke-btn" id="clear-btn">Clear</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="line-nav" id="line-nav"></div>
+    </div>
+    <div class="instructions" id="instructions">📖 Tap characters to see meaning and hear pronunciation.</div>
+  </div>
+  
+  <script>
+    const chapters = [
+      {
+        number: 1, title: "The Way",
+        lines: [
+          { classical: "道可道", pinyin: "dào kě dào", modern: "可以说出来的道", english: "The Way that can be spoken", characters: [
+            { char: "道", pinyin: "dào", meaning: "way, path, principle" },
+            { char: "可", pinyin: "kě", meaning: "can, able to" },
+            { char: "道", pinyin: "dào", meaning: "to speak, to tell" }
+          ]},
+          { classical: "非常道", pinyin: "fēi cháng dào", modern: "不是永恒的道", english: "is not the eternal Way", characters: [
+            { char: "非", pinyin: "fēi", meaning: "not, non-" },
+            { char: "常", pinyin: "cháng", meaning: "constant, eternal" },
+            { char: "道", pinyin: "dào", meaning: "way, path" }
+          ]},
+          { classical: "名可名", pinyin: "míng kě míng", modern: "可以叫出来的名", english: "The name that can be named", characters: [
+            { char: "名", pinyin: "míng", meaning: "name" },
+            { char: "可", pinyin: "kě", meaning: "can, able to" },
+            { char: "名", pinyin: "míng", meaning: "to name, to call" }
+          ]},
+          { classical: "非常名", pinyin: "fēi cháng míng", modern: "不是永恒的名", english: "is not the eternal name", characters: [
+            { char: "非", pinyin: "fēi", meaning: "not, non-" },
+            { char: "常", pinyin: "cháng", meaning: "constant, eternal" },
+            { char: "名", pinyin: "míng", meaning: "name" }
+          ]},
+          { classical: "无名天地之始", pinyin: "wú míng tiān dì zhī shǐ", modern: "无名是天地的开始", english: "The nameless is the origin of heaven and earth", characters: [
+            { char: "无", pinyin: "wú", meaning: "without, nothing" },
+            { char: "名", pinyin: "míng", meaning: "name" },
+            { char: "天", pinyin: "tiān", meaning: "heaven, sky" },
+            { char: "地", pinyin: "dì", meaning: "earth, ground" },
+            { char: "之", pinyin: "zhī", meaning: "of (possessive)" },
+            { char: "始", pinyin: "shǐ", meaning: "beginning, origin" }
+          ]},
+          { classical: "有名万物之母", pinyin: "yǒu míng wàn wù zhī mǔ", modern: "有名是万物的母亲", english: "The named is the mother of all things", characters: [
+            { char: "有", pinyin: "yǒu", meaning: "have, exist" },
+            { char: "名", pinyin: "míng", meaning: "name" },
+            { char: "万", pinyin: "wàn", meaning: "ten thousand, myriad" },
+            { char: "物", pinyin: "wù", meaning: "thing, object" },
+            { char: "之", pinyin: "zhī", meaning: "of (possessive)" },
+            { char: "母", pinyin: "mǔ", meaning: "mother" }
+          ]}
+        ]
+      },
+      {
+        number: 8, title: "Water",
+        lines: [
+          { classical: "上善若水", pinyin: "shàng shàn ruò shuǐ", modern: "最高的善像水一样", english: "The highest good is like water", characters: [
+            { char: "上", pinyin: "shàng", meaning: "upper, highest" },
+            { char: "善", pinyin: "shàn", meaning: "good, virtue" },
+            { char: "若", pinyin: "ruò", meaning: "like, as if" },
+            { char: "水", pinyin: "shuǐ", meaning: "water" }
+          ]},
+          { classical: "水善利万物而不争", pinyin: "shuǐ shàn lì wàn wù ér bù zhēng", modern: "水善于帮助万物而不争", english: "Water benefits all things and does not compete", characters: [
+            { char: "水", pinyin: "shuǐ", meaning: "water" },
+            { char: "善", pinyin: "shàn", meaning: "good at" },
+            { char: "利", pinyin: "lì", meaning: "benefit, profit" },
+            { char: "万", pinyin: "wàn", meaning: "ten thousand" },
+            { char: "物", pinyin: "wù", meaning: "things" },
+            { char: "而", pinyin: "ér", meaning: "and, yet" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "争", pinyin: "zhēng", meaning: "compete, fight" }
+          ]},
+          { classical: "处众人之所恶", pinyin: "chǔ zhòng rén zhī suǒ wù", modern: "它处于众人所厌恶的地方", english: "It dwells in places that people disdain", characters: [
+            { char: "处", pinyin: "chǔ", meaning: "dwell, stay" },
+            { char: "众", pinyin: "zhòng", meaning: "many, crowd" },
+            { char: "人", pinyin: "rén", meaning: "people" },
+            { char: "之", pinyin: "zhī", meaning: "of (possessive)" },
+            { char: "所", pinyin: "suǒ", meaning: "that which" },
+            { char: "恶", pinyin: "wù", meaning: "hate, dislike" }
+          ]},
+          { classical: "故几于道", pinyin: "gù jī yú dào", modern: "所以接近于道", english: "Thus it is close to the Way", characters: [
+            { char: "故", pinyin: "gù", meaning: "therefore" },
+            { char: "几", pinyin: "jī", meaning: "close to, nearly" },
+            { char: "于", pinyin: "yú", meaning: "to, at" },
+            { char: "道", pinyin: "dào", meaning: "the Way" }
+          ]}
+        ]
+      },
+      {
+        number: 81, title: "True Words",
+        lines: [
+          { classical: "信言不美", pinyin: "xìn yán bù měi", modern: "真实的话不华丽", english: "Truthful words are not beautiful", characters: [
+            { char: "信", pinyin: "xìn", meaning: "trust, truth" },
+            { char: "言", pinyin: "yán", meaning: "words, speech" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "美", pinyin: "měi", meaning: "beautiful" }
+          ]},
+          { classical: "美言不信", pinyin: "měi yán bù xìn", modern: "华丽的话不真实", english: "Beautiful words are not truthful", characters: [
+            { char: "美", pinyin: "měi", meaning: "beautiful" },
+            { char: "言", pinyin: "yán", meaning: "words, speech" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "信", pinyin: "xìn", meaning: "trust, truth" }
+          ]},
+          { classical: "善者不辩", pinyin: "shàn zhě bù biàn", modern: "善良的人不争辩", english: "The good do not argue", characters: [
+            { char: "善", pinyin: "shàn", meaning: "good, virtuous" },
+            { char: "者", pinyin: "zhě", meaning: "one who, person" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "辩", pinyin: "biàn", meaning: "argue, debate" }
+          ]},
+          { classical: "辩者不善", pinyin: "biàn zhě bù shàn", modern: "争辩的人不善良", english: "Those who argue are not good", characters: [
+            { char: "辩", pinyin: "biàn", meaning: "argue, debate" },
+            { char: "者", pinyin: "zhě", meaning: "one who, person" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "善", pinyin: "shàn", meaning: "good, virtuous" }
+          ]},
+          { classical: "知者不博", pinyin: "zhī zhě bù bó", modern: "有智慧的人不炫耀博学", english: "The wise do not show off learning", characters: [
+            { char: "知", pinyin: "zhī", meaning: "know, wisdom" },
+            { char: "者", pinyin: "zhě", meaning: "one who" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "博", pinyin: "bó", meaning: "broad, extensive" }
+          ]},
+          { classical: "博者不知", pinyin: "bó zhě bù zhī", modern: "炫耀博学的人没有智慧", english: "Those who show off do not know", characters: [
+            { char: "博", pinyin: "bó", meaning: "broad, extensive" },
+            { char: "者", pinyin: "zhě", meaning: "one who" },
+            { char: "不", pinyin: "bù", meaning: "not" },
+            { char: "知", pinyin: "zhī", meaning: "know, wisdom" }
+          ]}
+        ]
+      }
+    ];
+
+    let state = { chapter: 0, line: 0, char: 0, view: 'study', practiceTab: 'stroke' };
+    let hanziWriter = null, canvasCtx = null, isDrawing = false;
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'zh-CN'; u.rate = 0.8;
+        const voices = window.speechSynthesis.getVoices();
+        const zh = voices.find(v => v.lang.includes('zh'));
+        if (zh) u.voice = zh;
+        window.speechSynthesis.speak(u);
+      }
+    }
+    if ('speechSynthesis' in window) window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+
+    const getChapter = () => chapters[state.chapter];
+    const getLine = () => getChapter().lines[state.line];
+    const getChar = () => getLine().characters[state.char];
+
+    function renderChapterNav() {
+      document.getElementById('chapter-nav').innerHTML = chapters.map((ch, i) =>
+        `<button class="chapter-btn ${state.chapter === i ? 'active' : ''}" data-chapter="${i}">第${ch.number}章 · ${ch.title}</button>`
+      ).join('');
+    }
+
+    function renderLineDisplay() {
+      const l = getLine();
+      document.getElementById('classical-text').textContent = l.classical;
+      document.getElementById('pinyin-text').textContent = l.pinyin;
+      document.getElementById('modern-text').textContent = l.modern;
+      document.getElementById('english-text').textContent = l.english;
+    }
+
+    function renderCharactersGrid() {
+      document.getElementById('characters-grid').innerHTML = getLine().characters.map((c, i) =>
+        `<div class="char-card ${state.char === i ? 'active' : ''}" data-char="${i}"><div class="char">${c.char}</div><div class="char-pinyin">${c.pinyin}</div></div>`
+      ).join('');
+    }
+
+    function renderStudyDetail() {
+      const c = getChar();
+      document.getElementById('study-pinyin').textContent = c.pinyin;
+      document.getElementById('study-meaning').textContent = c.meaning;
+    }
+
+    function renderPracticeDetail() {
+      const c = getChar();
+      document.getElementById('big-char').textContent = c.char;
+      document.getElementById('practice-pinyin').textContent = c.pinyin;
+      document.getElementById('practice-meaning').textContent = c.meaning;
+      document.getElementById('prev-btn').disabled = state.char === 0 && state.line === 0;
+      document.getElementById('next-btn').disabled = state.char === getLine().characters.length - 1 && state.line === getChapter().lines.length - 1;
+    }
+
+    function renderLineNav() {
+      document.getElementById('line-nav').innerHTML = getChapter().lines.map((_, i) =>
+        `<button class="line-dot ${state.line === i ? 'active' : ''}" data-line="${i}"></button>`
+      ).join('');
+    }
+
+    function renderHanziWriter() {
+      document.getElementById('stroke-target').innerHTML = '';
+      hanziWriter = HanziWriter.create('stroke-target', getChar().char, {
+        width: 260, height: 260, padding: 20,
+        strokeColor: '#2d2d2d', outlineColor: '#e0dcd4', drawingColor: '#8b7355',
+        showOutline: true, strokeAnimationSpeed: 1, delayBetweenStrokes: 300, radicalColor: '#8b7355'
+      });
+    }
+
+    function clearCanvas() {
+      const canvas = document.getElementById('writing-canvas');
+      const c = getChar();
+      canvasCtx.fillStyle = '#faf8f5';
+      canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
+      canvasCtx.strokeStyle = '#e0dcd4'; canvasCtx.lineWidth = 1;
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(canvas.width / 2, 0); canvasCtx.lineTo(canvas.width / 2, canvas.height);
+      canvasCtx.moveTo(0, canvas.height / 2); canvasCtx.lineTo(canvas.width, canvas.height / 2);
+      canvasCtx.stroke();
+      canvasCtx.strokeStyle = '#ebe7df'; canvasCtx.setLineDash([5, 5]);
+      canvasCtx.beginPath();
+      canvasCtx.moveTo(0, 0); canvasCtx.lineTo(canvas.width, canvas.height);
+      canvasCtx.moveTo(canvas.width, 0); canvasCtx.lineTo(0, canvas.height);
+      canvasCtx.stroke(); canvasCtx.setLineDash([]);
+      canvasCtx.font = '140px "Noto Serif SC", serif';
+      canvasCtx.fillStyle = 'rgba(0,0,0,0.06)';
+      canvasCtx.textAlign = 'center'; canvasCtx.textBaseline = 'middle';
+      canvasCtx.fillText(c.char, canvas.width / 2, canvas.height / 2);
+      canvasCtx.strokeStyle = '#1a1a1a'; canvasCtx.lineWidth = 4;
+      canvasCtx.lineCap = 'round'; canvasCtx.lineJoin = 'round';
+    }
+
+    function renderWritingCanvas() {
+      canvasCtx = document.getElementById('writing-canvas').getContext('2d');
+      clearCanvas();
+    }
+
+    function updateInstructions() {
+      const el = document.getElementById('instructions');
+      if (state.view === 'study') el.textContent = '📖 Tap characters to see meaning and hear pronunciation.';
+      else if (state.practiceTab === 'stroke') el.textContent = '✨ Watch the stroke order animation, then try Quiz mode!';
+      else el.textContent = '✍️ Use your Apple Pencil or finger to trace the character.';
+    }
+
+    function render() {
+      renderChapterNav(); renderLineDisplay(); renderCharactersGrid();
+      renderStudyDetail(); renderPracticeDetail(); renderLineNav(); updateInstructions();
+      if (state.view === 'practice') { renderHanziWriter(); renderWritingCanvas(); }
+    }
+
+    document.getElementById('chapter-nav').addEventListener('click', e => {
+      const btn = e.target.closest('.chapter-btn');
+      if (btn) { state.chapter = +btn.dataset.chapter; state.line = 0; state.char = 0; render(); }
+    });
+
+    document.querySelector('.view-toggle').addEventListener('click', e => {
+      const btn = e.target.closest('.view-btn');
+      if (btn) {
+        state.view = btn.dataset.view;
+        document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('study-view').classList.toggle('active', state.view === 'study');
+        document.getElementById('practice-view').classList.toggle('active', state.view === 'practice');
+        if (state.view === 'practice') { renderHanziWriter(); renderWritingCanvas(); }
+        updateInstructions();
+      }
+    });
+
+    document.querySelectorAll('.practice-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        state.practiceTab = tab.dataset.tab;
+        document.querySelectorAll('.practice-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.getElementById('stroke-section').style.display = state.practiceTab === 'stroke' ? 'flex' : 'none';
+        document.getElementById('write-section').style.display = state.practiceTab === 'write' ? 'flex' : 'none';
+        if (state.practiceTab === 'write') renderWritingCanvas();
+        updateInstructions();
+      });
+    });
+
+    document.getElementById('characters-grid').addEventListener('click', e => {
+      const card = e.target.closest('.char-card');
+      if (card) { state.char = +card.dataset.char; renderCharactersGrid(); renderStudyDetail(); speak(getChar().char); }
+    });
+
+    document.getElementById('line-nav').addEventListener('click', e => {
+      const dot = e.target.closest('.line-dot');
+      if (dot) { state.line = +dot.dataset.line; state.char = 0; render(); }
+    });
+
+    document.getElementById('line-audio-btn').addEventListener('click', () => speak(getLine().classical));
+    document.getElementById('char-audio-btn').addEventListener('click', () => speak(getChar().char));
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+      if (state.char > 0) state.char--;
+      else if (state.line > 0) { state.line--; state.char = getLine().characters.length - 1; }
+      render();
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+      if (state.char < getLine().characters.length - 1) state.char++;
+      else if (state.line < getChapter().lines.length - 1) { state.line++; state.char = 0; }
+      render();
+    });
+
+    document.getElementById('animate-btn').addEventListener('click', () => { if (hanziWriter) hanziWriter.animateCharacter(); });
+    document.getElementById('quiz-btn').addEventListener('click', () => { if (hanziWriter) hanziWriter.quiz({ onComplete: d => { if (d.totalMistakes === 0) speak('很好'); }}); });
+    document.getElementById('clear-btn').addEventListener('click', clearCanvas);
+
+    const canvas = document.getElementById('writing-canvas');
+    const getPos = e => {
+      const r = canvas.getBoundingClientRect(), sx = canvas.width / r.width, sy = canvas.height / r.height;
+      return e.touches ? { x: (e.touches[0].clientX - r.left) * sx, y: (e.touches[0].clientY - r.top) * sy }
+        : { x: (e.clientX - r.left) * sx, y: (e.clientY - r.top) * sy };
+    };
+    canvas.addEventListener('mousedown', e => { isDrawing = true; const p = getPos(e); canvasCtx.beginPath(); canvasCtx.moveTo(p.x, p.y); });
+    canvas.addEventListener('mousemove', e => { if (!isDrawing) return; const p = getPos(e); canvasCtx.lineTo(p.x, p.y); canvasCtx.stroke(); });
+    canvas.addEventListener('mouseup', () => { isDrawing = false; canvasCtx.closePath(); });
+    canvas.addEventListener('mouseleave', () => { isDrawing = false; canvasCtx.closePath(); });
+    canvas.addEventListener('touchstart', e => { e.preventDefault(); isDrawing = true; const p = getPos(e); canvasCtx.beginPath(); canvasCtx.moveTo(p.x, p.y); });
+    canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!isDrawing) return; const p = getPos(e); canvasCtx.lineTo(p.x, p.y); canvasCtx.stroke(); });
+    canvas.addEventListener('touchend', () => { isDrawing = false; canvasCtx.closePath(); });
+
+    render();
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  </script>
+</body>
+</html>
