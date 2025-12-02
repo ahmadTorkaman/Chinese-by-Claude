@@ -53,14 +53,14 @@
       transition: all 0.2s; font-family: "Noto Serif SC", serif;
     }
     .chapter-btn.active { background: #2d2d2d; color: white; border-color: #2d2d2d; }
-    .view-toggle { display: flex; justify-content: center; margin-bottom: 24px; }
+    .view-toggle { display: flex; justify-content: center; margin-bottom: 24px; flex-wrap: wrap; gap: 0; }
     .view-btn {
-      padding: 12px 28px; border: 2px solid #2d2d2d; background: white;
-      cursor: pointer; font-size: 0.8rem; transition: all 0.2s;
-      text-transform: uppercase; letter-spacing: 2px;
+      padding: 12px 20px; border: 2px solid #2d2d2d; background: white;
+      cursor: pointer; font-size: 0.75rem; transition: all 0.2s;
+      text-transform: uppercase; letter-spacing: 1px; border-left: none;
     }
-    .view-btn:first-child { border-radius: 30px 0 0 30px; }
-    .view-btn:last-child { border-radius: 0 30px 30px 0; border-left: none; }
+    .view-btn:first-child { border-radius: 30px 0 0 30px; border-left: 2px solid #2d2d2d; }
+    .view-btn:last-child { border-radius: 0 30px 30px 0; }
     .view-btn.active { background: #2d2d2d; color: white; }
     .content-card {
       background: white; border-radius: 20px; padding: 28px;
@@ -179,6 +179,97 @@
     .practice-tab:first-child { border-radius: 20px 0 0 20px; }
     .practice-tab:last-child { border-radius: 0 20px 20px 0; }
     .practice-tab.active { background: #8b7355; color: white; }
+    /* Quiz Styles */
+    .quiz-container { text-align: center; padding: 20px 0; }
+    .quiz-instruction { font-size: 1rem; color: #666; margin-bottom: 20px; }
+    .quiz-play-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 16px 32px; background: #8b7355; color: white; border: none;
+      border-radius: 30px; cursor: pointer; font-size: 1rem; transition: all 0.2s;
+    }
+    .quiz-play-btn:hover { background: #6d5a43; transform: scale(1.02); }
+    .quiz-play-btn svg { width: 24px; height: 24px; }
+    .quiz-options {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      max-width: 320px; margin: 24px auto;
+    }
+    .quiz-option {
+      font-family: "Noto Serif SC", serif; font-size: 2.5rem;
+      padding: 20px; background: #faf8f5; border: 2px solid #e0dcd4;
+      border-radius: 16px; cursor: pointer; transition: all 0.2s;
+    }
+    .quiz-option:hover { border-color: #8b7355; background: white; }
+    .quiz-option.correct { background: #e8f5e9; border-color: #4caf50; }
+    .quiz-option.incorrect { background: #ffebee; border-color: #f44336; }
+    .quiz-option.disabled { pointer-events: none; opacity: 0.6; }
+    .quiz-feedback {
+      font-size: 1.1rem; margin: 16px 0; min-height: 28px;
+      font-weight: 600;
+    }
+    .quiz-feedback.correct { color: #4caf50; }
+    .quiz-feedback.incorrect { color: #f44336; }
+    .quiz-score { color: #888; font-size: 0.9rem; }
+    /* Stats Styles */
+    .stats-container { padding: 10px 0; }
+    .stats-header { text-align: center; margin-bottom: 28px; }
+    .stats-title {
+      font-family: "Noto Serif SC", serif; font-size: 1.6rem;
+      color: #2d2d2d; margin: 0 0 4px 0;
+    }
+    .stats-subtitle { color: #888; font-size: 0.9rem; margin: 0; }
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
+      margin-bottom: 28px;
+    }
+    .stat-card {
+      background: #faf8f5; border-radius: 16px; padding: 20px;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: "Noto Serif SC", serif; font-size: 2.2rem;
+      color: #8b7355; font-weight: 600;
+    }
+    .stat-label { font-size: 0.8rem; color: #888; margin-top: 4px; }
+    .section-title {
+      font-size: 0.9rem; color: #666; text-transform: uppercase;
+      letter-spacing: 1px; margin: 0 0 16px 0;
+    }
+    .mastery-section { margin-bottom: 28px; }
+    .mastery-row {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 10px;
+    }
+    .mastery-label { width: 70px; font-size: 0.85rem; color: #666; }
+    .mastery-bar {
+      flex: 1; height: 8px; background: #ebe7df; border-radius: 4px;
+      overflow: hidden;
+    }
+    .mastery-fill { height: 100%; border-radius: 4px; transition: width 0.3s; }
+    .mastery-fill.mastered { background: #8b7355; }
+    .mastery-fill.learning { background: #c4a77d; }
+    .mastery-fill.new { background: #d4cfc4; }
+    .mastery-count { width: 30px; font-size: 0.85rem; color: #888; text-align: right; }
+    .recent-chars {
+      display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    }
+    .recent-char {
+      font-family: "Noto Serif SC", serif; font-size: 1.4rem;
+      width: 44px; height: 44px; display: flex; align-items: center;
+      justify-content: center; background: #faf8f5; border-radius: 10px;
+      color: #2d2d2d;
+    }
+    .recent-char.mastered { background: #8b7355; color: white; }
+    .recent-char.learning { background: #f0ebe3; }
+    /* Character Detail Enhancement */
+    .char-extra-info { margin-top: 16px; padding-top: 16px; border-top: 1px solid #ebe7df; }
+    .char-radical, .char-words {
+      font-size: 0.85rem; color: #666; margin-bottom: 8px;
+    }
+    .char-radical strong, .char-words strong { color: #8b7355; }
+    .word-examples { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+    .word-example {
+      font-family: "Noto Serif SC", serif; background: #faf8f5;
+      padding: 6px 12px; border-radius: 12px; font-size: 0.95rem;
+    }
     @media (max-width: 600px) {
       .title { font-size: 2rem; letter-spacing: 6px; }
       .classical-text { font-size: 1.8rem; letter-spacing: 6px; }
@@ -198,6 +289,8 @@
     <div class="view-toggle">
       <button class="view-btn active" data-view="study">Study</button>
       <button class="view-btn" data-view="practice">Practice</button>
+      <button class="view-btn" data-view="quiz">Quiz</button>
+      <button class="view-btn" data-view="stats">Stats</button>
     </div>
     <div class="content-card">
       <div class="line-display">
@@ -234,6 +327,7 @@
             <div class="pinyin" id="study-pinyin"></div>
             <div class="meaning" id="study-meaning"></div>
           </div>
+          <div class="char-extra-info" id="char-extra-info"></div>
         </div>
       </div>
       <div class="tab-content" id="practice-view">
@@ -279,6 +373,78 @@
               <button class="stroke-btn" id="clear-btn">Clear</button>
             </div>
           </div>
+        </div>
+      </div>
+      <div class="tab-content" id="quiz-view">
+        <div class="quiz-container">
+          <div class="quiz-prompt">
+            <p class="quiz-instruction">Listen and select the correct character</p>
+            <button class="quiz-play-btn" id="quiz-play-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+              </svg>
+              Play Sound
+            </button>
+          </div>
+          <div class="quiz-options" id="quiz-options"></div>
+          <div class="quiz-feedback" id="quiz-feedback"></div>
+          <div class="quiz-score">
+            <span id="quiz-correct">0</span> correct · <span id="quiz-total">0</span> total
+          </div>
+          <button class="nav-btn" id="next-quiz-btn" style="margin-top: 16px;">Next Question</button>
+        </div>
+      </div>
+      <div class="tab-content" id="stats-view">
+        <div class="stats-container">
+          <div class="stats-header">
+            <h2 class="stats-title">Your Progress</h2>
+            <p class="stats-subtitle">Practice journey with the Dao De Jing</p>
+          </div>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-number" id="stat-chars-practiced">0</div>
+              <div class="stat-label">Characters Practiced</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="stat-total-sessions">0</div>
+              <div class="stat-label">Practice Sessions</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="stat-quiz-accuracy">0%</div>
+              <div class="stat-label">Quiz Accuracy</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="stat-streak">0</div>
+              <div class="stat-label">Day Streak</div>
+            </div>
+          </div>
+          <div class="mastery-section">
+            <h3 class="section-title">Character Mastery</h3>
+            <div class="mastery-levels">
+              <div class="mastery-row">
+                <span class="mastery-label">Mastered</span>
+                <div class="mastery-bar"><div class="mastery-fill mastered" id="mastery-mastered"></div></div>
+                <span class="mastery-count" id="count-mastered">0</span>
+              </div>
+              <div class="mastery-row">
+                <span class="mastery-label">Learning</span>
+                <div class="mastery-bar"><div class="mastery-fill learning" id="mastery-learning"></div></div>
+                <span class="mastery-count" id="count-learning">0</span>
+              </div>
+              <div class="mastery-row">
+                <span class="mastery-label">New</span>
+                <div class="mastery-bar"><div class="mastery-fill new" id="mastery-new"></div></div>
+                <span class="mastery-count" id="count-new">0</span>
+              </div>
+            </div>
+          </div>
+          <div class="recent-activity">
+            <h3 class="section-title">Recently Practiced</h3>
+            <div class="recent-chars" id="recent-chars"></div>
+          </div>
+          <button class="stroke-btn" id="reset-progress-btn" style="margin-top: 24px; background: #c9c9c9;">Reset Progress</button>
         </div>
       </div>
       <div class="line-nav" id="line-nav"></div>
@@ -409,83 +575,141 @@
 
     let state = { chapter: 0, line: 0, char: 0, view: 'study', practiceTab: 'stroke', charMode: 'classical', modernChar: 0 };
     let hanziWriter = null, canvasCtx = null, isDrawing = false;
+    let quizState = { correct: null, options: [], answered: false, correctCount: 0, totalCount: 0 };
 
-    // Modern Chinese character dictionary for translations
-    const modernDict = {
-      // Common words used in modern translations
-      '可': { pinyin: 'kě', meaning: 'can, may, able to' },
-      '以': { pinyin: 'yǐ', meaning: 'to use, in order to' },
-      '说': { pinyin: 'shuō', meaning: 'to speak, to say' },
-      '出': { pinyin: 'chū', meaning: 'to come out, to go out' },
-      '来': { pinyin: 'lái', meaning: 'to come' },
-      '的': { pinyin: 'de', meaning: 'possessive particle' },
-      '道': { pinyin: 'dào', meaning: 'way, path, principle' },
-      '不': { pinyin: 'bù', meaning: 'not, no' },
-      '是': { pinyin: 'shì', meaning: 'is, to be' },
-      '永': { pinyin: 'yǒng', meaning: 'eternal, forever' },
-      '恒': { pinyin: 'héng', meaning: 'permanent, constant' },
-      '叫': { pinyin: 'jiào', meaning: 'to call, to name' },
-      '名': { pinyin: 'míng', meaning: 'name' },
-      '无': { pinyin: 'wú', meaning: 'without, nothing' },
-      '天': { pinyin: 'tiān', meaning: 'heaven, sky' },
-      '地': { pinyin: 'dì', meaning: 'earth, ground' },
-      '开': { pinyin: 'kāi', meaning: 'to open, to start' },
-      '始': { pinyin: 'shǐ', meaning: 'beginning, to begin' },
-      '有': { pinyin: 'yǒu', meaning: 'to have, there is' },
-      '万': { pinyin: 'wàn', meaning: 'ten thousand, myriad' },
-      '物': { pinyin: 'wù', meaning: 'thing, object' },
-      '母': { pinyin: 'mǔ', meaning: 'mother' },
-      '亲': { pinyin: 'qīn', meaning: 'parent, relative, close' },
-      '所': { pinyin: 'suǒ', meaning: 'place, that which' },
-      '常': { pinyin: 'cháng', meaning: 'often, constant' },
-      '没': { pinyin: 'méi', meaning: 'not have, without' },
-      '欲': { pinyin: 'yù', meaning: 'desire, want' },
-      '望': { pinyin: 'wàng', meaning: 'to hope, to gaze' },
-      '便': { pinyin: 'biàn', meaning: 'convenient, then' },
-      '观': { pinyin: 'guān', meaning: 'to observe, to watch' },
-      '察': { pinyin: 'chá', meaning: 'to examine, to inspect' },
-      '奥': { pinyin: 'ào', meaning: 'profound, mysterious' },
-      '妙': { pinyin: 'miào', meaning: 'wonderful, subtle' },
-      '边': { pinyin: 'biān', meaning: 'side, edge, boundary' },
-      '界': { pinyin: 'jiè', meaning: 'boundary, realm' },
-      '最': { pinyin: 'zuì', meaning: 'most, -est' },
-      '高': { pinyin: 'gāo', meaning: 'high, tall' },
-      '善': { pinyin: 'shàn', meaning: 'good, virtue' },
-      '像': { pinyin: 'xiàng', meaning: 'like, to resemble' },
-      '水': { pinyin: 'shuǐ', meaning: 'water' },
-      '一': { pinyin: 'yī', meaning: 'one' },
-      '样': { pinyin: 'yàng', meaning: 'manner, kind, type' },
-      '于': { pinyin: 'yú', meaning: 'at, in, to' },
-      '帮': { pinyin: 'bāng', meaning: 'to help, to assist' },
-      '助': { pinyin: 'zhù', meaning: 'to help, to aid' },
-      '而': { pinyin: 'ér', meaning: 'and, but, yet' },
-      '与': { pinyin: 'yǔ', meaning: 'and, with' },
-      '之': { pinyin: 'zhī', meaning: 'of, it (object)' },
-      '争': { pinyin: 'zhēng', meaning: 'to compete, to fight' },
-      '它': { pinyin: 'tā', meaning: 'it' },
-      '处': { pinyin: 'chù', meaning: 'place, to dwell' },
-      '众': { pinyin: 'zhòng', meaning: 'crowd, many' },
-      '人': { pinyin: 'rén', meaning: 'person, people' },
-      '厌': { pinyin: 'yàn', meaning: 'to dislike, to detest' },
-      '恶': { pinyin: 'wù', meaning: 'to hate, evil' },
-      '方': { pinyin: 'fāng', meaning: 'place, direction' },
-      '接': { pinyin: 'jiē', meaning: 'to connect, to approach' },
-      '近': { pinyin: 'jìn', meaning: 'near, close' },
-      '真': { pinyin: 'zhēn', meaning: 'true, real' },
-      '实': { pinyin: 'shí', meaning: 'real, solid, true' },
-      '话': { pinyin: 'huà', meaning: 'speech, words' },
-      '华': { pinyin: 'huá', meaning: 'magnificent, China' },
-      '丽': { pinyin: 'lì', meaning: 'beautiful, elegant' },
-      '良': { pinyin: 'liáng', meaning: 'good, fine' },
-      '辩': { pinyin: 'biàn', meaning: 'to argue, to debate' },
-      '智': { pinyin: 'zhì', meaning: 'wisdom, intelligence' },
-      '慧': { pinyin: 'huì', meaning: 'intelligence, wisdom' },
-      '炫': { pinyin: 'xuàn', meaning: 'to show off, dazzle' },
-      '耀': { pinyin: 'yào', meaning: 'to shine, to show off' },
-      '卖': { pinyin: 'mài', meaning: 'to sell' },
-      '弄': { pinyin: 'nòng', meaning: 'to play with, to do' },
-      '学': { pinyin: 'xué', meaning: 'to learn, study' },
-      '问': { pinyin: 'wèn', meaning: 'to ask, question' }
+    // Progress tracking with localStorage
+    const progress = {
+      load() {
+        const saved = localStorage.getItem('daodejing_progress');
+        return saved ? JSON.parse(saved) : {
+          characters: {}, // { char: { practiced: count, correct: count, lastPracticed: date } }
+          sessions: 0,
+          quizCorrect: 0,
+          quizTotal: 0,
+          lastDate: null,
+          streak: 0
+        };
+      },
+      save(data) { localStorage.setItem('daodejing_progress', JSON.stringify(data)); },
+      recordPractice(char) {
+        const data = this.load();
+        if (!data.characters[char]) data.characters[char] = { practiced: 0, correct: 0, lastPracticed: null };
+        data.characters[char].practiced++;
+        data.characters[char].lastPracticed = new Date().toISOString();
+        this.updateStreak(data);
+        this.save(data);
+      },
+      recordQuiz(char, isCorrect) {
+        const data = this.load();
+        if (!data.characters[char]) data.characters[char] = { practiced: 0, correct: 0, lastPracticed: null };
+        data.characters[char].practiced++;
+        if (isCorrect) data.characters[char].correct++;
+        data.characters[char].lastPracticed = new Date().toISOString();
+        data.quizTotal++;
+        if (isCorrect) data.quizCorrect++;
+        this.updateStreak(data);
+        this.save(data);
+      },
+      updateStreak(data) {
+        const today = new Date().toDateString();
+        if (data.lastDate !== today) {
+          const yesterday = new Date(Date.now() - 86400000).toDateString();
+          data.streak = (data.lastDate === yesterday) ? data.streak + 1 : 1;
+          data.lastDate = today;
+          data.sessions++;
+        }
+      },
+      reset() { localStorage.removeItem('daodejing_progress'); }
+    };
+
+    // Enhanced character dictionary with radicals and word examples
+    const charData = {
+      '道': { pinyin: 'dào', meaning: 'way, path, principle', radical: '辶 (walk)', words: ['道路 dàolù (road)', '道理 dàolǐ (reason)'] },
+      '可': { pinyin: 'kě', meaning: 'can, may, able to', radical: '口 (mouth)', words: ['可以 kěyǐ (can)', '可能 kěnéng (possible)'] },
+      '非': { pinyin: 'fēi', meaning: 'not, non-, wrong', radical: '非 (wrong)', words: ['非常 fēicháng (very)', '是非 shìfēi (right/wrong)'] },
+      '常': { pinyin: 'cháng', meaning: 'constant, often', radical: '巾 (cloth)', words: ['常常 chángcháng (often)', '正常 zhèngcháng (normal)'] },
+      '名': { pinyin: 'míng', meaning: 'name, fame', radical: '口 (mouth)', words: ['名字 míngzi (name)', '有名 yǒumíng (famous)'] },
+      '无': { pinyin: 'wú', meaning: 'without, nothing', radical: '一 (one)', words: ['无法 wúfǎ (unable)', '无限 wúxiàn (infinite)'] },
+      '天': { pinyin: 'tiān', meaning: 'heaven, sky, day', radical: '大 (big)', words: ['天空 tiānkōng (sky)', '今天 jīntiān (today)'] },
+      '地': { pinyin: 'dì', meaning: 'earth, ground', radical: '土 (earth)', words: ['地方 dìfang (place)', '土地 tǔdì (land)'] },
+      '之': { pinyin: 'zhī', meaning: 'of, it, go', radical: '丶 (dot)', words: ['之后 zhīhòu (after)', '之前 zhīqián (before)'] },
+      '始': { pinyin: 'shǐ', meaning: 'beginning, start', radical: '女 (woman)', words: ['开始 kāishǐ (begin)', '始终 shǐzhōng (always)'] },
+      '有': { pinyin: 'yǒu', meaning: 'have, exist', radical: '月 (moon)', words: ['没有 méiyǒu (not have)', '所有 suǒyǒu (all)'] },
+      '万': { pinyin: 'wàn', meaning: 'ten thousand', radical: '一 (one)', words: ['万一 wànyī (if by chance)', '万岁 wànsuì (long live)'] },
+      '物': { pinyin: 'wù', meaning: 'thing, matter', radical: '牛 (ox)', words: ['动物 dòngwù (animal)', '事物 shìwù (thing)'] },
+      '母': { pinyin: 'mǔ', meaning: 'mother', radical: '母 (mother)', words: ['母亲 mǔqīn (mother)', '父母 fùmǔ (parents)'] },
+      '上': { pinyin: 'shàng', meaning: 'up, above, upper', radical: '一 (one)', words: ['上面 shàngmiàn (above)', '早上 zǎoshang (morning)'] },
+      '善': { pinyin: 'shàn', meaning: 'good, virtuous', radical: '口 (mouth)', words: ['善良 shànliáng (kind)', '改善 gǎishàn (improve)'] },
+      '若': { pinyin: 'ruò', meaning: 'like, if, seem', radical: '艹 (grass)', words: ['如若 rúruò (if)', '若是 ruòshì (if)'] },
+      '水': { pinyin: 'shuǐ', meaning: 'water', radical: '水 (water)', words: ['水果 shuǐguǒ (fruit)', '河水 héshuǐ (river water)'] },
+      '利': { pinyin: 'lì', meaning: 'benefit, sharp', radical: '刂 (knife)', words: ['利益 lìyì (benefit)', '顺利 shùnlì (smooth)'] },
+      '而': { pinyin: 'ér', meaning: 'and, but, yet', radical: '而 (and)', words: ['而且 érqiě (moreover)', '然而 ránér (however)'] },
+      '不': { pinyin: 'bù', meaning: 'not, no', radical: '一 (one)', words: ['不要 búyào (don\'t)', '不行 bùxíng (no way)'] },
+      '争': { pinyin: 'zhēng', meaning: 'compete, fight', radical: '刀 (knife)', words: ['竞争 jìngzhēng (compete)', '战争 zhànzhēng (war)'] },
+      '处': { pinyin: 'chǔ', meaning: 'place, dwell', radical: '夂 (go)', words: ['到处 dàochù (everywhere)', '处理 chǔlǐ (handle)'] },
+      '众': { pinyin: 'zhòng', meaning: 'crowd, many', radical: '人 (person)', words: ['观众 guānzhòng (audience)', '群众 qúnzhòng (masses)'] },
+      '人': { pinyin: 'rén', meaning: 'person, people', radical: '人 (person)', words: ['人们 rénmen (people)', '个人 gèrén (individual)'] },
+      '所': { pinyin: 'suǒ', meaning: 'place, that which', radical: '户 (door)', words: ['所以 suǒyǐ (so)', '厕所 cèsuǒ (toilet)'] },
+      '恶': { pinyin: 'wù/è', meaning: 'hate, evil', radical: '心 (heart)', words: ['厌恶 yànwù (hate)', '恶人 èrén (evil person)'] },
+      '故': { pinyin: 'gù', meaning: 'therefore, old', radical: '攵 (strike)', words: ['故事 gùshi (story)', '所以 suǒyǐ (therefore)'] },
+      '几': { pinyin: 'jī/jǐ', meaning: 'how many, nearly', radical: '几 (table)', words: ['几个 jǐgè (how many)', '几乎 jīhū (almost)'] },
+      '于': { pinyin: 'yú', meaning: 'at, in, to', radical: '二 (two)', words: ['关于 guānyú (about)', '由于 yóuyú (due to)'] },
+      '信': { pinyin: 'xìn', meaning: 'trust, believe', radical: '亻 (person)', words: ['相信 xiāngxìn (believe)', '信心 xìnxīn (confidence)'] },
+      '言': { pinyin: 'yán', meaning: 'words, speech', radical: '言 (speech)', words: ['语言 yǔyán (language)', '发言 fāyán (speak)'] },
+      '美': { pinyin: 'měi', meaning: 'beautiful', radical: '羊 (sheep)', words: ['美丽 měilì (beautiful)', '美国 Měiguó (America)'] },
+      '者': { pinyin: 'zhě', meaning: 'one who, -er', radical: '耂 (old)', words: ['读者 dúzhě (reader)', '作者 zuòzhě (author)'] },
+      '辩': { pinyin: 'biàn', meaning: 'argue, debate', radical: '辛 (bitter)', words: ['辩论 biànlùn (debate)', '争辩 zhēngbiàn (argue)'] },
+      '知': { pinyin: 'zhī', meaning: 'know, wisdom', radical: '矢 (arrow)', words: ['知道 zhīdào (know)', '知识 zhīshi (knowledge)'] },
+      '博': { pinyin: 'bó', meaning: 'broad, extensive', radical: '十 (ten)', words: ['博士 bóshì (PhD)', '博物馆 bówùguǎn (museum)'] },
+      // Modern Chinese specific
+      '说': { pinyin: 'shuō', meaning: 'to speak, say', radical: '讠 (speech)', words: ['说话 shuōhuà (speak)', '小说 xiǎoshuō (novel)'] },
+      '出': { pinyin: 'chū', meaning: 'go out, exit', radical: '凵 (container)', words: ['出来 chūlái (come out)', '出发 chūfā (depart)'] },
+      '来': { pinyin: 'lái', meaning: 'come', radical: '木 (wood)', words: ['来到 láidào (arrive)', '将来 jiānglái (future)'] },
+      '的': { pinyin: 'de', meaning: 'possessive particle', radical: '白 (white)', words: ['我的 wǒde (my)', '你的 nǐde (your)'] },
+      '是': { pinyin: 'shì', meaning: 'is, to be', radical: '日 (sun)', words: ['就是 jiùshì (exactly)', '但是 dànshì (but)'] },
+      '永': { pinyin: 'yǒng', meaning: 'eternal, forever', radical: '水 (water)', words: ['永远 yǒngyuǎn (forever)', '永恒 yǒnghéng (eternal)'] },
+      '恒': { pinyin: 'héng', meaning: 'permanent', radical: '忄 (heart)', words: ['恒心 héngxīn (perseverance)', '永恒 yǒnghéng (eternal)'] },
+      '叫': { pinyin: 'jiào', meaning: 'call, name', radical: '口 (mouth)', words: ['叫做 jiàozuò (called)', '大叫 dàjiào (shout)'] },
+      '开': { pinyin: 'kāi', meaning: 'open, start', radical: '廾 (hands)', words: ['开始 kāishǐ (begin)', '打开 dǎkāi (open)'] },
+      '以': { pinyin: 'yǐ', meaning: 'use, in order to', radical: '人 (person)', words: ['可以 kěyǐ (can)', '以后 yǐhòu (later)'] },
+      '亲': { pinyin: 'qīn', meaning: 'parent, close', radical: '亠 (lid)', words: ['亲人 qīnrén (relative)', '亲爱 qīnài (dear)'] },
+      '没': { pinyin: 'méi', meaning: 'not have', radical: '氵 (water)', words: ['没有 méiyǒu (don\'t have)', '没关系 méiguānxi (no problem)'] },
+      '欲': { pinyin: 'yù', meaning: 'desire, want', radical: '欠 (lack)', words: ['欲望 yùwàng (desire)', '食欲 shíyù (appetite)'] },
+      '望': { pinyin: 'wàng', meaning: 'hope, gaze', radical: '月 (moon)', words: ['希望 xīwàng (hope)', '愿望 yuànwàng (wish)'] },
+      '便': { pinyin: 'biàn', meaning: 'convenient', radical: '亻 (person)', words: ['方便 fāngbiàn (convenient)', '便宜 piányi (cheap)'] },
+      '观': { pinyin: 'guān', meaning: 'observe, view', radical: '见 (see)', words: ['观看 guānkàn (watch)', '观点 guāndiǎn (viewpoint)'] },
+      '察': { pinyin: 'chá', meaning: 'examine', radical: '宀 (roof)', words: ['观察 guānchá (observe)', '警察 jǐngchá (police)'] },
+      '奥': { pinyin: 'ào', meaning: 'profound', radical: '大 (big)', words: ['奥秘 àomì (mystery)', '深奥 shēnào (profound)'] },
+      '妙': { pinyin: 'miào', meaning: 'wonderful', radical: '女 (woman)', words: ['奇妙 qímiào (wonderful)', '美妙 měimiào (beautiful)'] },
+      '边': { pinyin: 'biān', meaning: 'side, edge', radical: '辶 (walk)', words: ['旁边 pángbiān (beside)', '那边 nàbiān (over there)'] },
+      '界': { pinyin: 'jiè', meaning: 'boundary', radical: '田 (field)', words: ['世界 shìjiè (world)', '边界 biānjiè (border)'] },
+      '最': { pinyin: 'zuì', meaning: 'most', radical: '日 (sun)', words: ['最好 zuìhǎo (best)', '最后 zuìhòu (finally)'] },
+      '高': { pinyin: 'gāo', meaning: 'high, tall', radical: '高 (tall)', words: ['高兴 gāoxìng (happy)', '提高 tígāo (improve)'] },
+      '像': { pinyin: 'xiàng', meaning: 'like, resemble', radical: '亻 (person)', words: ['好像 hǎoxiàng (seem)', '图像 túxiàng (image)'] },
+      '一': { pinyin: 'yī', meaning: 'one', radical: '一 (one)', words: ['一起 yīqǐ (together)', '一样 yīyàng (same)'] },
+      '样': { pinyin: 'yàng', meaning: 'manner, kind', radical: '木 (wood)', words: ['一样 yīyàng (same)', '样子 yàngzi (appearance)'] },
+      '帮': { pinyin: 'bāng', meaning: 'help', radical: '巾 (cloth)', words: ['帮助 bāngzhù (help)', '帮忙 bāngmáng (help out)'] },
+      '助': { pinyin: 'zhù', meaning: 'assist, help', radical: '力 (power)', words: ['帮助 bāngzhù (help)', '助手 zhùshǒu (assistant)'] },
+      '与': { pinyin: 'yǔ', meaning: 'and, with', radical: '一 (one)', words: ['与其 yǔqí (rather than)', '参与 cānyù (participate)'] },
+      '它': { pinyin: 'tā', meaning: 'it', radical: '宀 (roof)', words: ['其它 qítā (other)', '它们 tāmen (they)'] },
+      '厌': { pinyin: 'yàn', meaning: 'dislike', radical: '厂 (cliff)', words: ['厌恶 yànwù (hate)', '讨厌 tǎoyàn (annoying)'] },
+      '方': { pinyin: 'fāng', meaning: 'direction', radical: '方 (square)', words: ['地方 dìfang (place)', '方法 fāngfǎ (method)'] },
+      '接': { pinyin: 'jiē', meaning: 'connect', radical: '扌 (hand)', words: ['接受 jiēshòu (accept)', '直接 zhíjiē (direct)'] },
+      '近': { pinyin: 'jìn', meaning: 'near', radical: '辶 (walk)', words: ['附近 fùjìn (nearby)', '最近 zuìjìn (recently)'] },
+      '真': { pinyin: 'zhēn', meaning: 'true, real', radical: '目 (eye)', words: ['真的 zhēnde (really)', '认真 rènzhēn (serious)'] },
+      '实': { pinyin: 'shí', meaning: 'real, solid', radical: '宀 (roof)', words: ['事实 shìshí (fact)', '实在 shízài (indeed)'] },
+      '话': { pinyin: 'huà', meaning: 'words, speech', radical: '讠 (speech)', words: ['说话 shuōhuà (speak)', '电话 diànhuà (phone)'] },
+      '华': { pinyin: 'huá', meaning: 'magnificent', radical: '十 (ten)', words: ['中华 Zhōnghuá (China)', '华丽 huálì (gorgeous)'] },
+      '丽': { pinyin: 'lì', meaning: 'beautiful', radical: '一 (one)', words: ['美丽 měilì (beautiful)', '华丽 huálì (gorgeous)'] },
+      '良': { pinyin: 'liáng', meaning: 'good, fine', radical: '艮 (stopping)', words: ['善良 shànliáng (kind)', '良好 liánghǎo (good)'] },
+      '智': { pinyin: 'zhì', meaning: 'wisdom', radical: '日 (sun)', words: ['智慧 zhìhuì (wisdom)', '智力 zhìlì (intelligence)'] },
+      '慧': { pinyin: 'huì', meaning: 'intelligence', radical: '心 (heart)', words: ['智慧 zhìhuì (wisdom)', '聪慧 cōnghuì (clever)'] },
+      '炫': { pinyin: 'xuàn', meaning: 'show off', radical: '火 (fire)', words: ['炫耀 xuànyào (show off)', '炫目 xuànmù (dazzling)'] },
+      '耀': { pinyin: 'yào', meaning: 'shine', radical: '羽 (feather)', words: ['照耀 zhàoyào (shine)', '荣耀 róngyào (glory)'] },
+      '卖': { pinyin: 'mài', meaning: 'sell', radical: '十 (ten)', words: ['买卖 mǎimài (business)', '出卖 chūmài (betray)'] },
+      '弄': { pinyin: 'nòng', meaning: 'play with', radical: '廾 (hands)', words: ['玩弄 wánnòng (play with)', '弄清 nòngqīng (clarify)'] },
+      '学': { pinyin: 'xué', meaning: 'learn, study', radical: '子 (child)', words: ['学习 xuéxí (study)', '学校 xuéxiào (school)'] },
+      '问': { pinyin: 'wèn', meaning: 'ask', radical: '门 (door)', words: ['问题 wèntí (question)', '请问 qǐngwèn (excuse me)'] }
     };
 
     // Extract unique characters from modern Chinese text
@@ -507,11 +731,9 @@
       return chars;
     }
 
-    // Pinyin lookup - checks modern dictionary first, then classical data
+    // Pinyin lookup - checks charData first, then classical data
     function getPinyinForChar(char) {
-      // Check modern dictionary first
-      if (modernDict[char]) return modernDict[char].pinyin;
-      // Then check classical character data
+      if (charData[char]) return charData[char].pinyin;
       for (const ch of chapters) {
         for (const line of ch.lines) {
           for (const c of line.characters) {
@@ -522,11 +744,9 @@
       return '—';
     }
 
-    // Meaning lookup - checks modern dictionary first, then classical data
+    // Meaning lookup - checks charData first, then classical data
     function getMeaningForChar(char) {
-      // Check modern dictionary first
-      if (modernDict[char]) return modernDict[char].meaning;
-      // Then check classical character data
+      if (charData[char]) return charData[char].meaning;
       for (const ch of chapters) {
         for (const line of ch.lines) {
           for (const c of line.characters) {
@@ -535,6 +755,29 @@
         }
       }
       return 'Modern Chinese character';
+    }
+
+    // Get radical for character
+    function getRadicalForChar(char) {
+      return charData[char]?.radical || null;
+    }
+
+    // Get word examples for character
+    function getWordsForChar(char) {
+      return charData[char]?.words || [];
+    }
+
+    // Get all unique characters from all chapters
+    function getAllCharacters() {
+      const chars = new Set();
+      for (const ch of chapters) {
+        for (const line of ch.lines) {
+          for (const c of line.characters) {
+            chars.add(c.char);
+          }
+        }
+      }
+      return Array.from(chars);
     }
 
     function speak(text) {
@@ -586,6 +829,19 @@
       const c = getChar();
       document.getElementById('study-pinyin').textContent = c.pinyin;
       document.getElementById('study-meaning').textContent = c.meaning;
+
+      // Show radical and word examples
+      const radical = getRadicalForChar(c.char);
+      const words = getWordsForChar(c.char);
+      let extraHTML = '';
+      if (radical) {
+        extraHTML += `<div class="char-radical"><strong>Radical:</strong> ${radical}</div>`;
+      }
+      if (words.length > 0) {
+        extraHTML += `<div class="char-words"><strong>Word Examples:</strong></div>`;
+        extraHTML += `<div class="word-examples">${words.map(w => `<span class="word-example">${w}</span>`).join('')}</div>`;
+      }
+      document.getElementById('char-extra-info').innerHTML = extraHTML;
     }
 
     function renderPracticeDetail() {
@@ -657,14 +913,122 @@
     function updateInstructions() {
       const el = document.getElementById('instructions');
       if (state.view === 'study') el.textContent = '📖 Tap characters to see meaning and hear pronunciation.';
-      else if (state.practiceTab === 'stroke') el.textContent = '✨ Watch the stroke order animation, then try Quiz mode!';
-      else el.textContent = '✍️ Use your Apple Pencil or finger to trace the character.';
+      else if (state.view === 'practice' && state.practiceTab === 'stroke') el.textContent = '✨ Watch the stroke order animation, then try Quiz mode!';
+      else if (state.view === 'practice') el.textContent = '✍️ Use your Apple Pencil or finger to trace the character.';
+      else if (state.view === 'quiz') el.textContent = '🎯 Listen to the sound and select the matching character.';
+      else if (state.view === 'stats') el.textContent = '📊 Track your learning journey and character mastery.';
+    }
+
+    // Quiz functions
+    function generateQuiz() {
+      const allChars = getAllCharacters();
+      const correctChar = allChars[Math.floor(Math.random() * allChars.length)];
+      const options = [correctChar];
+      while (options.length < 4) {
+        const randomChar = allChars[Math.floor(Math.random() * allChars.length)];
+        if (!options.includes(randomChar)) options.push(randomChar);
+      }
+      // Shuffle options
+      for (let i = options.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [options[i], options[j]] = [options[j], options[i]];
+      }
+      quizState.correct = correctChar;
+      quizState.options = options;
+      quizState.answered = false;
+    }
+
+    function renderQuiz() {
+      if (!quizState.correct) generateQuiz();
+      const optionsEl = document.getElementById('quiz-options');
+      optionsEl.innerHTML = quizState.options.map(char =>
+        `<button class="quiz-option" data-char="${char}">${char}</button>`
+      ).join('');
+      document.getElementById('quiz-feedback').textContent = '';
+      document.getElementById('quiz-feedback').className = 'quiz-feedback';
+      document.getElementById('quiz-correct').textContent = quizState.correctCount;
+      document.getElementById('quiz-total').textContent = quizState.totalCount;
+    }
+
+    function handleQuizAnswer(selectedChar) {
+      if (quizState.answered) return;
+      quizState.answered = true;
+      quizState.totalCount++;
+      const isCorrect = selectedChar === quizState.correct;
+      if (isCorrect) quizState.correctCount++;
+      progress.recordQuiz(quizState.correct, isCorrect);
+
+      // Update UI
+      document.querySelectorAll('.quiz-option').forEach(btn => {
+        btn.classList.add('disabled');
+        if (btn.dataset.char === quizState.correct) btn.classList.add('correct');
+        else if (btn.dataset.char === selectedChar && !isCorrect) btn.classList.add('incorrect');
+      });
+
+      const feedback = document.getElementById('quiz-feedback');
+      feedback.textContent = isCorrect ? '正确! Correct!' : `不对 · The answer was ${quizState.correct}`;
+      feedback.className = `quiz-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+      document.getElementById('quiz-correct').textContent = quizState.correctCount;
+      document.getElementById('quiz-total').textContent = quizState.totalCount;
+    }
+
+    function nextQuiz() {
+      generateQuiz();
+      renderQuiz();
+      speak(quizState.correct);
+    }
+
+    // Stats functions
+    function renderStats() {
+      const data = progress.load();
+      const allChars = getAllCharacters();
+      const totalChars = allChars.length;
+
+      // Calculate stats
+      const practicedChars = Object.keys(data.characters).length;
+      const accuracy = data.quizTotal > 0 ? Math.round((data.quizCorrect / data.quizTotal) * 100) : 0;
+
+      // Mastery levels
+      let mastered = 0, learning = 0, newChars = 0;
+      allChars.forEach(char => {
+        const charData = data.characters[char];
+        if (!charData) newChars++;
+        else if (charData.practiced >= 5 && (charData.correct / charData.practiced) >= 0.8) mastered++;
+        else learning++;
+      });
+
+      // Update display
+      document.getElementById('stat-chars-practiced').textContent = practicedChars;
+      document.getElementById('stat-total-sessions').textContent = data.sessions;
+      document.getElementById('stat-quiz-accuracy').textContent = accuracy + '%';
+      document.getElementById('stat-streak').textContent = data.streak;
+
+      // Mastery bars
+      document.getElementById('mastery-mastered').style.width = (mastered / totalChars * 100) + '%';
+      document.getElementById('mastery-learning').style.width = (learning / totalChars * 100) + '%';
+      document.getElementById('mastery-new').style.width = (newChars / totalChars * 100) + '%';
+      document.getElementById('count-mastered').textContent = mastered;
+      document.getElementById('count-learning').textContent = learning;
+      document.getElementById('count-new').textContent = newChars;
+
+      // Recent characters
+      const recentChars = Object.entries(data.characters)
+        .sort((a, b) => new Date(b[1].lastPracticed) - new Date(a[1].lastPracticed))
+        .slice(0, 12);
+      document.getElementById('recent-chars').innerHTML = recentChars.length > 0
+        ? recentChars.map(([char, info]) => {
+            const level = info.practiced >= 5 && (info.correct / info.practiced) >= 0.8 ? 'mastered' : 'learning';
+            return `<div class="recent-char ${level}">${char}</div>`;
+          }).join('')
+        : '<p style="color:#888;font-size:0.9rem;">No practice history yet</p>';
     }
 
     function render() {
       renderChapterNav(); renderLineDisplay(); renderCharactersGrid();
       renderStudyDetail(); renderPracticeDetail(); renderLineNav(); updateInstructions();
       if (state.view === 'practice') { renderHanziWriter(); renderWritingCanvas(); }
+      if (state.view === 'quiz') { renderQuiz(); }
+      if (state.view === 'stats') { renderStats(); }
     }
 
     document.getElementById('chapter-nav').addEventListener('click', e => {
@@ -680,7 +1044,14 @@
         btn.classList.add('active');
         document.getElementById('study-view').classList.toggle('active', state.view === 'study');
         document.getElementById('practice-view').classList.toggle('active', state.view === 'practice');
+        document.getElementById('quiz-view').classList.toggle('active', state.view === 'quiz');
+        document.getElementById('stats-view').classList.toggle('active', state.view === 'stats');
+        // Hide line display for stats view
+        document.querySelector('.line-display').style.display = state.view === 'stats' ? 'none' : 'block';
+        document.getElementById('line-nav').style.display = state.view === 'stats' ? 'none' : 'flex';
         if (state.view === 'practice') { renderHanziWriter(); renderWritingCanvas(); }
+        if (state.view === 'quiz') { generateQuiz(); renderQuiz(); speak(quizState.correct); }
+        if (state.view === 'stats') { renderStats(); }
         updateInstructions();
       }
     });
@@ -750,9 +1121,44 @@
       render();
     });
 
-    document.getElementById('animate-btn').addEventListener('click', () => { if (hanziWriter) hanziWriter.animateCharacter(); });
-    document.getElementById('quiz-btn').addEventListener('click', () => { if (hanziWriter) hanziWriter.quiz({ onComplete: d => { if (d.totalMistakes === 0) speak('很好'); }}); });
+    document.getElementById('animate-btn').addEventListener('click', () => {
+      if (hanziWriter) {
+        hanziWriter.animateCharacter();
+        progress.recordPractice(getCurrentPracticeChar().char);
+      }
+    });
+    document.getElementById('quiz-btn').addEventListener('click', () => {
+      if (hanziWriter) {
+        const char = getCurrentPracticeChar().char;
+        hanziWriter.quiz({
+          onComplete: d => {
+            progress.recordQuiz(char, d.totalMistakes === 0);
+            if (d.totalMistakes === 0) speak('很好');
+          }
+        });
+      }
+    });
     document.getElementById('clear-btn').addEventListener('click', clearCanvas);
+
+    // Quiz event listeners
+    document.getElementById('quiz-options').addEventListener('click', e => {
+      const btn = e.target.closest('.quiz-option');
+      if (btn) handleQuizAnswer(btn.dataset.char);
+    });
+    document.getElementById('quiz-play-btn').addEventListener('click', () => {
+      if (quizState.correct) speak(quizState.correct);
+    });
+    document.getElementById('next-quiz-btn').addEventListener('click', nextQuiz);
+
+    // Stats event listeners
+    document.getElementById('reset-progress-btn').addEventListener('click', () => {
+      if (confirm('Reset all progress? This cannot be undone.')) {
+        progress.reset();
+        quizState.correctCount = 0;
+        quizState.totalCount = 0;
+        renderStats();
+      }
+    });
 
     const canvas = document.getElementById('writing-canvas');
     const getPos = e => {
