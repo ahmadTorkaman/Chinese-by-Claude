@@ -94,6 +94,7 @@
     .audio-btn:hover { background: #ebe7df; color: #2d2d2d; }
     .audio-btn.playing { background: #2d2d2d; color: white; }
     .audio-btn svg { width: 16px; height: 16px; }
+    .modern-audio-btn { margin-top: 8px; }
     .characters-grid {
       display: flex; justify-content: center; gap: 10px;
       flex-wrap: wrap; margin-bottom: 20px;
@@ -161,6 +162,14 @@
     }
     .tab-content { display: none; }
     .tab-content.active { display: block; }
+    .char-mode-toggle { display: flex; justify-content: center; margin-bottom: 16px; gap: 8px; }
+    .char-mode-btn {
+      padding: 8px 16px; background: white; border: 2px solid #d4cfc4;
+      border-radius: 20px; cursor: pointer; font-size: 0.75rem; color: #666;
+      transition: all 0.2s; font-family: "Noto Serif SC", serif;
+    }
+    .char-mode-btn:hover { border-color: #8b7355; color: #8b7355; }
+    .char-mode-btn.active { background: #8b7355; border-color: #8b7355; color: white; }
     .practice-tabs { display: flex; justify-content: center; margin-bottom: 20px; }
     .practice-tab {
       padding: 10px 20px; background: #f5f3ef; border: none; cursor: pointer;
@@ -205,6 +214,13 @@
         <div style="margin-top: 16px;">
           <div class="modern-label">Modern Chinese</div>
           <div class="modern-text" id="modern-text"></div>
+          <button class="audio-btn modern-audio-btn" id="modern-audio-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+            </svg>
+            Listen
+          </button>
         </div>
         <div>
           <div class="english-label">English</div>
@@ -221,6 +237,10 @@
         </div>
       </div>
       <div class="tab-content" id="practice-view">
+        <div class="char-mode-toggle">
+          <button class="char-mode-btn active" data-mode="classical">Classical 古文</button>
+          <button class="char-mode-btn" data-mode="modern">Modern 现代</button>
+        </div>
         <div class="practice-tabs">
           <button class="practice-tab active" data-tab="stroke">Stroke Order</button>
           <button class="practice-tab" data-tab="write">Free Write</button>
@@ -387,8 +407,51 @@
       }
     ];
 
-    let state = { chapter: 0, line: 0, char: 0, view: 'study', practiceTab: 'stroke' };
+    let state = { chapter: 0, line: 0, char: 0, view: 'study', practiceTab: 'stroke', charMode: 'classical', modernChar: 0 };
     let hanziWriter = null, canvasCtx = null, isDrawing = false;
+
+    // Extract unique characters from modern Chinese text
+    function getModernCharacters(text) {
+      const chars = [];
+      const seen = new Set();
+      for (const char of text) {
+        // Skip punctuation, spaces, and common particles
+        if (/[\s，。、！？：；""''（）\u3000]/.test(char)) continue;
+        if (!seen.has(char)) {
+          seen.add(char);
+          chars.push({
+            char: char,
+            pinyin: getPinyinForChar(char),
+            meaning: getMeaningForChar(char)
+          });
+        }
+      }
+      return chars;
+    }
+
+    // Simple pinyin lookup (uses character data from classical if available)
+    function getPinyinForChar(char) {
+      for (const ch of chapters) {
+        for (const line of ch.lines) {
+          for (const c of line.characters) {
+            if (c.char === char) return c.pinyin;
+          }
+        }
+      }
+      return '—';
+    }
+
+    // Simple meaning lookup
+    function getMeaningForChar(char) {
+      for (const ch of chapters) {
+        for (const line of ch.lines) {
+          for (const c of line.characters) {
+            if (c.char === char) return c.meaning;
+          }
+        }
+      }
+      return 'Modern Chinese character';
+    }
 
     function speak(text) {
       if ('speechSynthesis' in window) {
@@ -406,6 +469,14 @@
     const getChapter = () => chapters[state.chapter];
     const getLine = () => getChapter().lines[state.line];
     const getChar = () => getLine().characters[state.char];
+    const getModernChars = () => getModernCharacters(getLine().modern);
+    const getCurrentPracticeChar = () => {
+      if (state.charMode === 'modern') {
+        const modernChars = getModernChars();
+        return modernChars[state.modernChar] || modernChars[0];
+      }
+      return getChar();
+    };
 
     function renderChapterNav() {
       document.getElementById('chapter-nav').innerHTML = chapters.map((ch, i) =>
@@ -434,12 +505,25 @@
     }
 
     function renderPracticeDetail() {
-      const c = getChar();
+      const c = getCurrentPracticeChar();
       document.getElementById('big-char').textContent = c.char;
       document.getElementById('practice-pinyin').textContent = c.pinyin;
       document.getElementById('practice-meaning').textContent = c.meaning;
-      document.getElementById('prev-btn').disabled = state.char === 0 && state.line === 0;
-      document.getElementById('next-btn').disabled = state.char === getLine().characters.length - 1 && state.line === getChapter().lines.length - 1;
+
+      // Update navigation buttons based on mode
+      if (state.charMode === 'modern') {
+        const modernChars = getModernChars();
+        document.getElementById('prev-btn').disabled = state.modernChar === 0 && state.line === 0;
+        document.getElementById('next-btn').disabled = state.modernChar === modernChars.length - 1 && state.line === getChapter().lines.length - 1;
+      } else {
+        document.getElementById('prev-btn').disabled = state.char === 0 && state.line === 0;
+        document.getElementById('next-btn').disabled = state.char === getLine().characters.length - 1 && state.line === getChapter().lines.length - 1;
+      }
+
+      // Update character mode toggle buttons
+      document.querySelectorAll('.char-mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === state.charMode);
+      });
     }
 
     function renderLineNav() {
@@ -450,7 +534,8 @@
 
     function renderHanziWriter() {
       document.getElementById('stroke-target').innerHTML = '';
-      hanziWriter = HanziWriter.create('stroke-target', getChar().char, {
+      const c = getCurrentPracticeChar();
+      hanziWriter = HanziWriter.create('stroke-target', c.char, {
         width: 260, height: 260, padding: 20,
         strokeColor: '#2d2d2d', outlineColor: '#e0dcd4', drawingColor: '#8b7355',
         showOutline: true, strokeAnimationSpeed: 1, delayBetweenStrokes: 300, radicalColor: '#8b7355'
@@ -459,7 +544,7 @@
 
     function clearCanvas() {
       const canvas = document.getElementById('writing-canvas');
-      const c = getChar();
+      const c = getCurrentPracticeChar();
       canvasCtx.fillStyle = '#faf8f5';
       canvasCtx.fillRect(0, 0, canvas.width, canvas.height);
       canvasCtx.strokeStyle = '#e0dcd4'; canvasCtx.lineWidth = 1;
@@ -500,7 +585,7 @@
 
     document.getElementById('chapter-nav').addEventListener('click', e => {
       const btn = e.target.closest('.chapter-btn');
-      if (btn) { state.chapter = +btn.dataset.chapter; state.line = 0; state.char = 0; render(); }
+      if (btn) { state.chapter = +btn.dataset.chapter; state.line = 0; state.char = 0; state.modernChar = 0; render(); }
     });
 
     document.querySelector('.view-toggle').addEventListener('click', e => {
@@ -535,21 +620,49 @@
 
     document.getElementById('line-nav').addEventListener('click', e => {
       const dot = e.target.closest('.line-dot');
-      if (dot) { state.line = +dot.dataset.line; state.char = 0; render(); }
+      if (dot) { state.line = +dot.dataset.line; state.char = 0; state.modernChar = 0; render(); }
     });
 
     document.getElementById('line-audio-btn').addEventListener('click', () => speak(getLine().classical));
-    document.getElementById('char-audio-btn').addEventListener('click', () => speak(getChar().char));
+    document.getElementById('modern-audio-btn').addEventListener('click', () => speak(getLine().modern));
+    document.getElementById('char-audio-btn').addEventListener('click', () => speak(getCurrentPracticeChar().char));
+
+    // Character mode toggle (Classical/Modern)
+    document.querySelectorAll('.char-mode-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        state.charMode = btn.dataset.mode;
+        state.modernChar = 0; // Reset modern character index when switching
+        document.querySelectorAll('.char-mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === state.charMode));
+        renderPracticeDetail();
+        renderHanziWriter();
+        renderWritingCanvas();
+      });
+    });
 
     document.getElementById('prev-btn').addEventListener('click', () => {
-      if (state.char > 0) state.char--;
-      else if (state.line > 0) { state.line--; state.char = getLine().characters.length - 1; }
+      if (state.charMode === 'modern') {
+        const modernChars = getModernChars();
+        if (state.modernChar > 0) state.modernChar--;
+        else if (state.line > 0) {
+          state.line--;
+          state.modernChar = getModernCharacters(getChapter().lines[state.line].modern).length - 1;
+        }
+      } else {
+        if (state.char > 0) state.char--;
+        else if (state.line > 0) { state.line--; state.char = getLine().characters.length - 1; }
+      }
       render();
     });
 
     document.getElementById('next-btn').addEventListener('click', () => {
-      if (state.char < getLine().characters.length - 1) state.char++;
-      else if (state.line < getChapter().lines.length - 1) { state.line++; state.char = 0; }
+      if (state.charMode === 'modern') {
+        const modernChars = getModernChars();
+        if (state.modernChar < modernChars.length - 1) state.modernChar++;
+        else if (state.line < getChapter().lines.length - 1) { state.line++; state.modernChar = 0; }
+      } else {
+        if (state.char < getLine().characters.length - 1) state.char++;
+        else if (state.line < getChapter().lines.length - 1) { state.line++; state.char = 0; }
+      }
       render();
     });
 
